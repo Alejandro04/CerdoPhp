@@ -21,7 +21,8 @@ if (isset($_GET["searchstring"])){
     else{  echo json_encode(["success"=>0]); }
 }else{
     // Consulta todos los registros de la tabla empleados
-    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM tab_productos ");
+    // el paginado lo indica offset: limite * 2 = offset
+    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM tab_productos LIMIT 2 OFFSET 2");
     if(mysqli_num_rows($sqlProducts) > 0){
         $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
         echo json_encode($products);
