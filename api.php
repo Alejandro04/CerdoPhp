@@ -12,21 +12,20 @@ $connectDB = new mysqli($server, $user, $password, $database);
 
 // If the user do a searchString query
 if (isset($_GET["searchstring"])){
-    $sqlEmpleaados = mysqli_query($connectDB,"SELECT * FROM empleados WHERE nombre LIKE '%".$_GET["searchstring"]."%'");
-    if(mysqli_num_rows($sqlEmpleaados) > 0){
-        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
-        echo json_encode($empleaados);
+    $sqlProducts = mysqli_query($connectDB,"SELECT CODIGO,DESCRIPCION,COMACT,IVA,USD,COP,EXIST FROM tab_productos WHERE descripcion LIKE '%".$_GET["searchstring"]."%' OR COMACT LIKE '%".$_GET["searchstring"]."%'");
+    if(mysqli_num_rows($sqlProducts) > 0){
+        $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
+        echo json_encode($products);
         exit();
     }
     else{  echo json_encode(["success"=>0]); }
 }else{
     // Consulta todos los registros de la tabla empleados
-    $sqlEmpleaados = mysqli_query($connectDB,"SELECT * FROM empleados ");
-    if(mysqli_num_rows($sqlEmpleaados) > 0){
-        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
-        echo json_encode($empleaados);
+    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM tab_productos ");
+    if(mysqli_num_rows($sqlProducts) > 0){
+        $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
+        echo json_encode($products);
     }
     else{ echo json_encode([["success"=>0]]); }
 }
-
 ?>
