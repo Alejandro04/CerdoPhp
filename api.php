@@ -10,9 +10,8 @@ $server = "localhost"; $user = "root"; $password = "mysql"; $database = "emplead
 $connectDB = new mysqli($server, $user, $password, $database);
 
 
-// If the user do a searchString query
-if (isset($_GET["description"]) || isset($_GET["comact"])){
-    $sqlProducts = mysqli_query($connectDB,"SELECT CODIGO,DESCRIPCION,COMACT,IVA,USD,COP,EXIST FROM tab_productos WHERE descripcion LIKE '%".$_GET["description"]."%' OR COMACT LIKE '%".$_GET["comact"]."%'");
+if (isset($_GET["item1"]) || isset($_GET["item2"])){
+    $sqlProducts = mysqli_query($connectDB,"SELECT some_fields FROM products WHERE item1 LIKE '%".$_GET["item1"]."%' OR item2 LIKE '%".$_GET["item2"]."%'");
     if(mysqli_num_rows($sqlProducts) > 0){
         $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
         echo json_encode($products);
@@ -20,11 +19,12 @@ if (isset($_GET["description"]) || isset($_GET["comact"])){
     }
     else{  echo json_encode(["success"=>0]); }
 }else{
-    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM tab_productos");
+    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM products");
     if(mysqli_num_rows($sqlProducts) > 0){
         $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
         echo json_encode($products);
     }
     else{ echo json_encode([["success"=>0]]); }
 }
+
 ?>
