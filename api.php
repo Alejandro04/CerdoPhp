@@ -11,8 +11,8 @@ $connectDB = new mysqli($server, $user, $password, $database);
 
 
 // If the user do a searchString query
-if (isset($_GET["searchstring"])){
-    $sqlProducts = mysqli_query($connectDB,"SELECT CODIGO,DESCRIPCION,COMACT,IVA,USD,COP,EXIST FROM tab_productos WHERE descripcion LIKE '%".$_GET["searchstring"]."%' OR COMACT LIKE '%".$_GET["searchstring"]."%'");
+if (isset($_GET["description"]) || isset($_GET["comact"])){
+    $sqlProducts = mysqli_query($connectDB,"SELECT CODIGO,DESCRIPCION,COMACT,IVA,USD,COP,EXIST FROM tab_productos WHERE descripcion LIKE '%".$_GET["description"]."%' OR COMACT LIKE '%".$_GET["comact"]."%'");
     if(mysqli_num_rows($sqlProducts) > 0){
         $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
         echo json_encode($products);
@@ -20,9 +20,7 @@ if (isset($_GET["searchstring"])){
     }
     else{  echo json_encode(["success"=>0]); }
 }else{
-    // Consulta todos los registros de la tabla empleados
-    // el paginado lo indica offset: limite * 2 = offset
-    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM tab_productos LIMIT 2 OFFSET 2");
+    $sqlProducts = mysqli_query($connectDB,"SELECT * FROM tab_productos");
     if(mysqli_num_rows($sqlProducts) > 0){
         $products = mysqli_fetch_all($sqlProducts,MYSQLI_ASSOC);
         echo json_encode($products);
